@@ -181,7 +181,7 @@ st.markdown("<br>", unsafe_allow_html=True)
 
 ########################### 3번째 컨테이너 ###########################
 
-c11, c12, c13, c14, c15 = st.columns([0.7, 3, 1, 3, 0.7])
+c11, c12, c13, c14, c15 = st.columns([0.3, 3, 1, 3, 0.7])
 
 # Pie chart 생성
 c12.markdown('#### Region Ratio')
@@ -208,13 +208,13 @@ st.markdown("<br>", unsafe_allow_html=True)
 
 ########################### 4번째 컨테이너 ###########################
 
-c16, c17, c18, c19, c20 = st.columns([0.7, 3, 1, 3, 0.7])
+c16, c17, c18, c19, c20 = st.columns([0.3, 3, 1, 3, 0.7])
 
 # candle chart
 
 with c17:
     st.markdown('#### OHLCV Candle chart')
-    chart = StreamlitChart(height = 450, width = 550)   # height = 450, width = 650
+    chart = StreamlitChart(height = 450, width = 500)   # height = 450, width = 650
     chart.grid(vert_enabled = True, horz_enabled = True)
 
     chart.layout(background_color='#131722', font_family='Trebuchet MS', font_size = 16)
