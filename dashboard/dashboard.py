@@ -214,7 +214,7 @@ c16, c17, c18, c19, c20 = st.columns([0.3, 3, 1, 3, 0.7])
 
 with c17:
     st.markdown('#### OHLCV Candle chart')
-    chart = StreamlitChart(height = 450, width = 500)   # height = 450, width = 650
+    chart = StreamlitChart(height = 450, width = 450)   # height = 450, width = 650
     chart.grid(vert_enabled = True, horz_enabled = True)
 
     chart.layout(background_color='#131722', font_family='Trebuchet MS', font_size = 16)
