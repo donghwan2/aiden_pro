@@ -16,7 +16,7 @@ from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe
 # from langchain_teddynote.messages import AgentCallbacks      # Agent callback 함수
 # from langchain_teddynote.messages import AgentStreamParser   # Agent 중간단계 스트리밍
 
-st.markdown("# ai 분석")
+st.markdown("# ai 보고서")
 
 # if st.session_state["two_num_relation"]:
 st.write(st.session_state["two_num_relation"])
