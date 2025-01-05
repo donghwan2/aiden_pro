@@ -44,7 +44,7 @@ ml_classification = st.Page("ml/ml_classification.py", title="머신러닝 분�
 ml_regression = st.Page("ml/ml_regression.py", title="머신러닝 회귀", icon=":material/house:")
 
 # AI report
-ai_analysis = st.Page("stat/ai-analysis.py", title="ai 데이터 분석", icon=":material/house:")
+ai_analysis = st.Page("stat/ai-analysis.py", title="보고서로 정리", icon=":material/house:")
 
 # 여러 개의 st.Page 객체를 묶어서 내비게이션 메뉴 생성
 pages_navi = st.navigation(
