@@ -48,7 +48,7 @@ def chi2_test(df, var1, var2):
     agg = pd.crosstab(df[var1], df[var2])
     df_chi2 = stats.chi2_contingency(agg)
     st.dataframe(df_chi2)
-    return df_chi2
+    return pd.DataFrame(df_chi2)
 
 ########################## /기능함수 구현 ##########################
 

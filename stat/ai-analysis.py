@@ -17,9 +17,13 @@ from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe
 # from langchain_teddynote.messages import AgentStreamParser   # Agent 중간단계 스트리밍
 
 st.markdown("# ai 보고서")
+ai_report = st.button("ai 보고서 만들기")
 
 # if st.session_state["two_num_relation"]:
 st.write(st.session_state["two_num_relation"])
 st.write(st.session_state["two_cat_relation"])
 st.write(st.session_state["regression"])
+
+
+
 
