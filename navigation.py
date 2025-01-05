@@ -9,6 +9,15 @@ st.set_page_config(
     page_icon=":computer:"
 )
 
+st.markdown(
+    """
+    <style>
+        footer {display: none}
+        [data-testid="stHeader"] {display: none}
+    </style>
+    """, unsafe_allow_html = True
+)
+
 df_ins = pd.read_csv("data/insurance.csv")
 df_titanic = pd.read_csv("data/titanic.csv")
 df_ohlcv = pd.read_csv("data/crypto_ohlcv.csv")
