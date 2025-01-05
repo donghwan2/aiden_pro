@@ -25,11 +25,12 @@ import altair as alt
 ####################### /style.css 적용 #######################
 
 # 처음에 세션 스테이트 초기화 
-session_state = st.session_state
-# messages : 현재 세션에서 대화 기록 저장(세션 ID 별 대화 구분 X)
-if "messages" not in session_state:
-    session_state["messages"] = []
-
+if "df_ins" not in st.session_state:
+    st.session_state["df_ins"] = []
+if "df_titanic" not in st.session_state:
+    st.session_state["df_titanic"] = []
+if "df_ohlcv" not in st.session_state:
+    st.session_state["df_ohlcv"] = []
 
 ################################ 기능함수 구현 ################################
 
@@ -97,10 +98,10 @@ with st.sidebar:
 
 ################################ 데이터 전처리 ################################
 
-# 임시 데이터
-df_ins = pd.read_csv("data/insurance.csv")
-df_titanic = pd.read_csv("data/titanic.csv")
-df_ohlcv = pd.read_csv("data/crypto_ohlcv.csv")
+# 임시 데이터 불러오기
+df_ins = st.session_state['df_ins']
+df_titanic = st.session_state['df_titanic']
+df_ohlcv = st.session_state['df_ohlcv']
 
 df_titanic["Last_Name"] = df_titanic["Name"].map(lambda x: x.split('.')[-1])
 df_titanic['Fare_int'] = df_titanic['Fare'].map(lambda x: int(x))
@@ -201,7 +202,8 @@ c12.plotly_chart(fig_pie)
 # 상관관계 Heatmap 생성
 c14.markdown('#### Correlations')
 df_corr_titanic = df_titanic.select_dtypes(include=["number"]).corr().round(2)
-fig_heatmap = px.imshow(df_corr_titanic)
+fig_heatmap = px.imshow(df_corr_titanic, 
+                        text_auto=True)      # 값(annotation) 표시)
 c14.plotly_chart(fig_heatmap)
 
 st.markdown("<br>", unsafe_allow_html=True)

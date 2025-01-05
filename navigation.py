@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 
 # st.set_page_config(page_title="Aiden Pro(AI&Data Enhancer)", page_icon="")
 
@@ -8,6 +9,12 @@ st.set_page_config(
     page_icon=":computer:"
 )
 
+df_ins = pd.read_csv("data/insurance.csv")
+df_titanic = pd.read_csv("data/titanic.csv")
+df_ohlcv = pd.read_csv("data/crypto_ohlcv.csv")
+st.session_state['df_ins'] = df_ins
+st.session_state['df_titanic'] = df_titanic
+st.session_state['df_ohlcv'] = df_ohlcv
 
 # 대시보드
 dashboard = st.Page("dashboard/dashboard.py", title="대시보드", icon=":material/house:", 
