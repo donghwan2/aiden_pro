@@ -25,6 +25,13 @@ st.session_state['df_ins'] = df_ins
 st.session_state['df_titanic'] = df_titanic
 st.session_state['df_ohlcv'] = df_ohlcv
 
+if "two_num_relation" not in st.session_state:
+    st.session_state["two_num_relation"] = None
+if "two_cat_relation" not in st.session_state:
+    st.session_state["two_cat_relation"] = None
+if "regression" not in st.session_state:
+    st.session_state["regression"] = None
+
 # 대시보드
 dashboard = st.Page("dashboard/dashboard.py", title="대시보드", icon=":material/house:", 
                     default=True)
@@ -36,12 +43,16 @@ regression = st.Page("stat/regression.py", title="선형회귀 분석", icon=":m
 ml_classification = st.Page("ml/ml_classification.py", title="머신러닝 분류", icon=":material/house:")
 ml_regression = st.Page("ml/ml_regression.py", title="머신러닝 회귀", icon=":material/house:")
 
+# AI report
+ai_analysis = st.Page("stat/ai-analysis.py", title="ai 데이터 분석", icon=":material/house:")
+
 # 여러 개의 st.Page 객체를 묶어서 내비게이션 메뉴 생성
 pages_navi = st.navigation(
     {
         "데이터 파악" : [dashboard],
         "통계 분석" : [relation_analysis, regression],
-        "머신러닝" : [ml_classification, ml_regression]
+        "머신러닝" : [ml_classification, ml_regression],
+        "AI Report" : [ai_analysis]
     }
 )
 

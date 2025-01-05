@@ -20,7 +20,7 @@ import plotly
 import plotly.express as px
 from scipy import stats
 
-st.markdown("# 변수 상관관계 분석")
+st.markdown("# 변수 관계 분석")
 
 df_ins = st.session_state['df_ins']
 df_titanic = st.session_state['df_titanic']
@@ -29,35 +29,28 @@ df_ohlcv = st.session_state['df_ohlcv']
 numeric_list = df_ins.select_dtypes(include=['number']).columns.tolist()
 category_list = df_ins.select_dtypes(include=['object', 'category']).columns.tolist()
 
-# st.dataframe(df_ins)
-# st.write(numeric_list)
-
-
 ########################## 기능함수 구현 ##########################
 
 # 수치형 변수 간 상관관계 분석
 def num_correlation(df, var1, var2):
     corr_df = df.select_dtypes(include=['number']).corr().round(3)
-    # st.dataframe(corr_df)
+    tow_num_corr = df[[var1, var2]].corr()
 
+    # 전체 변수 상관계수 히트맵
     fig_heatmap = px.imshow(corr_df, 
                             text_auto=True)  # 값(annotation) 표시)
     st.plotly_chart(fig_heatmap)
+    return tow_num_corr
+
 
 # 범주형 변수 간 독립성 검정
 def chi2_test(df, var1, var2):
     agg = pd.crosstab(df[var1], df[var2])
     df_chi2 = stats.chi2_contingency(agg)
-    st.write(df_chi2)
+    st.dataframe(df_chi2)
+    return df_chi2
 
 ########################## /기능함수 구현 ##########################
-
-
-
-
-
-
-
 
 ################## 사이드바 ##################
 with st.sidebar:
@@ -88,8 +81,10 @@ with st.sidebar:
 ################## /사이드바 ##################
 
 if analysis_type == "두 개의 수치형 변수" and analysis_btn:   
-    num_correlation(df_ins, variables[0], variables[1])
+    tow_num_corr = num_correlation(df_ins, variables[0], variables[1])
+    st.session_state["two_num_relation"] = tow_num_corr
 
 elif analysis_type == "두 개의 범주형 변수" and analysis_btn:
-    chi2_test(df_ins, variables[0], variables[1])
+    df_chi2 = chi2_test(df_ins, variables[0], variables[1])
+    st.session_state["two_cat_relation"] = df_chi2
 
