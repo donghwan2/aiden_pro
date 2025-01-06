@@ -135,7 +135,7 @@ with st.sidebar:
     # 데이터 분석을 시작하는 버튼
     apply_btn = st.button("보고서 작성 시작")  
 
-    clr_btn = st.button("대화 초기화")  # 대화 내용을 초기화하는 버튼
+    clr_btn = st.button("분석 초기화")  # 대화 내용을 초기화하는 버튼
 
     # # CSV 파일 업로드
     # uploaded_file = st.file_uploader(
@@ -342,6 +342,9 @@ def ask(query):
 # 메인 로직
 if clr_btn:
     session_state["messages_csv"] = []  # 대화 내용 초기화
+    st.session_state["two_num_relation"] = None
+    st.session_state["two_cat_relation"] = None
+    st.session_state["regression"] = None
 
 if apply_btn:
     session_state["df"] = df_ins  # 데이터프레임 저장
