@@ -2,10 +2,10 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import requests
-from lightweight_charts.widgets import StreamlitChart
 import plotly
 import plotly.express as px
 import altair as alt
+# from lightweight_charts.widgets import StreamlitChart
 
 ####################### style.css 적용 #######################
 
