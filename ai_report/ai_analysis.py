@@ -132,15 +132,17 @@ def add_message(role: MessageRole, content: List[Union[MessageType, str]]):  # c
 
 ################################ 사이드바 ################################
 with st.sidebar:
-    # clr_btn = st.button("대화 초기화")  # 대화 내용을 초기화하는 버튼
+    # 데이터 분석을 시작하는 버튼
+    apply_btn = st.button("보고서 작성 시작")  
+
+    clr_btn = st.button("대화 초기화")  # 대화 내용을 초기화하는 버튼
 
     # # CSV 파일 업로드
     # uploaded_file = st.file_uploader(
     #     "CSV 파일을 업로드 해주세요.", type=['csv'], accept_multiple_files=False)
     # print("/n", "업로드된 파일:", uploaded_file, "/n")
 
-    # 데이터 분석을 시작하는 버튼
-    apply_btn = st.button("보고서 작성 시작")  
+    
 
 
 ################################ /사이드바 ################################
@@ -338,8 +340,8 @@ def ask(query):
 #################################### 채팅 ####################################
 
 # 메인 로직
-# if clr_btn:
-#     session_state["messages_csv"] = []  # 대화 내용 초기화
+if clr_btn:
+    session_state["messages_csv"] = []  # 대화 내용 초기화
 
 if apply_btn:
     session_state["df"] = df_ins  # 데이터프레임 저장
@@ -378,10 +380,9 @@ if apply_btn:
 # elif apply_btn:
 #     st.warning("파일을 업로드 해주세요.")
 
-print_messages()  # 이전까지 session_state["messages"]에 저장된 메시지 출력
-
 user_input = st.chat_input("무엇이 궁금하신가요?")  # 사용자 입력 받기
 if user_input:
+    print_messages()  # 이전까지 session_state["messages"]에 저장된 메시지 출력
     ask(user_input)  # 사용자 질문 처리
 
 # titanic.csv 파일 업로드
