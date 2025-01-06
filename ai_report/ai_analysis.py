@@ -63,7 +63,7 @@ df_titanic = st.session_state['df_titanic']
 df_ohlcv = st.session_state['df_ohlcv']
 
 # 분석 결과 가져오기
-
+# st.session_state["two_num_relation"], st.session_state["two_cat_relation"], st.session_state["regression"] 
 two_num_relation_result = st.session_state["two_num_relation"] 
 two_cat_relation_result = st.session_state["two_cat_relation"] 
 regression_result = st.session_state["regression"] 
@@ -270,16 +270,37 @@ def create_csv_agent(dataframe):
     # "사용자가 `df.columns`에 나열되지 않은 열로 질문하는 경우 아래에 나열된 가장 유사한 열을 참조할 수 있습니다.
 
 # 보고서 작성 함수
-def report():
-    prompt =f"""
-    다음 데이터 분석 결과들을 줄테니 데이터 분석을 수행해줘.
-     
-"""
-    st.dataframe(two_num_relation_result)
-    st.dataframe(two_cat_relation_result)
-    st.write(regression_result)
-    
+def report(two_num_relation_result, two_cat_relation_result, regression_result):
+    prompt = PromptTemplate.from_template(
+    """당신은 데이터 분석 결과를 바탕으로 보고서를 작성하는 assistant입니다.
+다음 analysis result들을 바탕으로 보고서를 작성해줘. 한국어로 답변하십시오. 
 
+# Analysis result: 
+{context}
+
+# Question: 
+{question}
+
+# Answer:"""
+    )
+    
+    # st.dataframe(two_num_relation_result)
+    # st.dataframe(two_cat_relation_result)
+    # st.write(regression_result)
+
+    # 모델(LLM) 을 생성합니다.
+    llm = ChatOpenAI(model_name="gpt-4o", temperature=0)
+
+    # 단계 8: 체인(Chain) 생성
+    chain = (
+        {"context": RunnablePassthrough() | (lambda inputs: [two_num_relation_result, two_cat_relation_result, regression_result]),
+         "question": RunnablePassthrough()}
+        | prompt
+        | llm
+        | StrOutputParser()
+    )
+
+    return chain
 
 
 
@@ -296,8 +317,9 @@ def ask(query):
         add_message(MessageRole.USER, [MessageType.TEXT, query])
 
         agent = session_state["agent"]
-        response = agent.stream({"input": query})
 
+        # 답변 생성
+        response = agent.stream({"input": query})
         ai_answer = ""
         parser_callback = AgentCallbacks(tool_callback, observation_callback, result_callback)
         stream_parser = AgentStreamParser(parser_callback)
@@ -326,7 +348,22 @@ if apply_btn:
     session_state["agent"] = create_csv_agent(df_ins)   # 랭체인에서 제공하는 "데이터프레임 에이전트" 생성 후 세션 스테이트에 저장
 
     # 보고서 작성 시작    
-    report()
+    chain = report(two_num_relation_result, two_cat_relation_result, regression_result)
+
+    question = "보고서를 작성해줘"
+
+    # 답변 생성
+    response = chain.stream({"question":question})
+
+    with st.chat_message("assistant"):
+        # 빈 공간(컨테이너)을 만들어서 여기에 토큰을 스트리밍 출력.
+        container = st.empty()
+        answer = ""
+        for token in response:  # 답변의 토큰을 하나씩 스트리밍 출력
+            answer += token
+            container.markdown(answer)
+
+    add_message(MessageRole.ASSISTANT, [MessageType.TEXT, answer])
 
 # if apply_btn and uploaded_file:
 #     # if isinstance(uploaded_file, list):
