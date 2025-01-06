@@ -218,27 +218,8 @@ st.markdown("<br>", unsafe_allow_html=True)
 
 c16, c17, c18, c19, c20 = st.columns([0.3, 3, 1, 3, 0.7])
 
-# candle chart
-
-with c17:
-    st.markdown('#### OHLCV Candle chart')
-    chart = StreamlitChart(height = 450, width = 450)   # height = 450, width = 650
-    chart.grid(vert_enabled = True, horz_enabled = True)
-
-    chart.layout(background_color='#131722', font_family='Trebuchet MS', font_size = 16)
-
-    chart.candle_style(up_color='#2962ff', down_color='#e91e63',
-                    border_up_color='#2962ffcb', border_down_color='#e91e63cb',
-                    wick_up_color='#2962ffcb', wick_down_color='#e91e63cb')
-
-    chart.volume_config(up_color='#2962ffcb', down_color='#e91e63cb')
-    chart.legend(visible = True, font_family = 'Trebuchet MS', ohlc = True, percent = True)
-
-    chart.set(df_ohlcv)
-    chart.load()
-
 # Bar chart
-with c19:
+with c17:
     st.markdown('#### Pclass Count')
     pclass_count = df_titanic["Pclass"].value_counts()
 
@@ -255,5 +236,21 @@ with c19:
         )
     st.plotly_chart(fig_bar)
 
+# candle chart
+# with c17:
+    # st.markdown('#### OHLCV Candle chart')
+    # chart = StreamlitChart(height = 450, width = 450)   # height = 450, width = 650
+    # chart.grid(vert_enabled = True, horz_enabled = True)
 
+    # chart.layout(background_color='#131722', font_family='Trebuchet MS', font_size = 16)
+
+    # chart.candle_style(up_color='#2962ff', down_color='#e91e63',
+    #                 border_up_color='#2962ffcb', border_down_color='#e91e63cb',
+    #                 wick_up_color='#2962ffcb', wick_down_color='#e91e63cb')
+
+    # chart.volume_config(up_color='#2962ffcb', down_color='#e91e63cb')
+    # chart.legend(visible = True, font_family = 'Trebuchet MS', ohlc = True, percent = True)
+
+    # chart.set(df_ohlcv)
+    # chart.load()
 
