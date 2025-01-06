@@ -24,13 +24,19 @@ import altair as alt
 
 ####################### /style.css 적용 #######################
 
-# 처음에 세션 스테이트 초기화 
+# 업로드된 CSV 파일 세션 스테이트 초기화 
+if "df" not in st.session_state:
+    st.session_state["df"] = "test"
+
+# 임시 데이터 세션 스테이트 초기화
 if "df_ins" not in st.session_state:
-    st.session_state["df_ins"] = []
+    st.session_state["df_ins"] = None
 if "df_titanic" not in st.session_state:
-    st.session_state["df_titanic"] = []
+    st.session_state["df_titanic"] = None
 if "df_ohlcv" not in st.session_state:
-    st.session_state["df_ohlcv"] = []
+    st.session_state["df_ohlcv"] = None
+
+
 
 ################################ 기능함수 구현 ################################
 

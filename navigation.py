@@ -18,12 +18,7 @@ st.markdown(
     """, unsafe_allow_html = True
 )
 
-df_ins = pd.read_csv("data/insurance.csv")
-df_titanic = pd.read_csv("data/titanic.csv")
-df_ohlcv = pd.read_csv("data/crypto_ohlcv.csv")
-st.session_state['df_ins'] = df_ins
-st.session_state['df_titanic'] = df_titanic
-st.session_state['df_ohlcv'] = df_ohlcv
+####################### 세션 스테이트 초기화 #######################
 
 if "two_num_relation" not in st.session_state:
     st.session_state["two_num_relation"] = None
@@ -31,6 +26,15 @@ if "two_cat_relation" not in st.session_state:
     st.session_state["two_cat_relation"] = None
 if "regression" not in st.session_state:
     st.session_state["regression"] = None
+
+# 임시 데이터 세션 스테이트에 넣기
+df_ins = pd.read_csv("data/insurance.csv")
+df_titanic = pd.read_csv("data/titanic.csv")
+df_ohlcv = pd.read_csv("data/crypto_ohlcv.csv")
+st.session_state['df_ins'] = df_ins
+st.session_state['df_titanic'] = df_titanic
+st.session_state['df_ohlcv'] = df_ohlcv
+
 
 # 대시보드
 dashboard = st.Page("dashboard/dashboard.py", title="대시보드", icon=":material/house:", 

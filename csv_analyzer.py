@@ -1,41 +1,61 @@
+import os; import warnings; warnings.filterwarnings("ignore")           # 경고 메시지 무시
+from dotenv import load_dotenv; load_dotenv()
+from langchain_openai import ChatOpenAI
 import os; import pandas as pd; import numpy as np; import streamlit as st    
 import matplotlib as plt; import seaborn as sns; import plotly   
-import warnings; warnings.filterwarnings('ignore')
-from dotenv import load_dotenv; load_dotenv()
 
-from langchain_core.prompts import PromptTemplate, ChatPromptTemplate
-from langchain_openai import ChatOpenAI
-from langchain_core.messages.chat import ChatMessage
-from langchain_community.chat_message_histories import ChatMessageHistory
-from dashboard.dashboard import df_ins
+from langchain_core.messages.chat import ChatMessage         # Streamlit에서 ChatMessage 저장
+from langchain_core.prompts import PromptTemplate            # 프롬프트 템플릿
+from langchain_core.prompts import ChatPromptTemplate        # AI와 대화용 프롬프트 템플릿
+from langchain_core.prompts import load_prompt
+from langchain import hub                  
 from langchain_core.output_parsers import StrOutputParser
-from langchain_core.prompts import MessagesPlaceholder
 
-# agent
-from file_llm import pdf_chain, process_imagefile, multimodal_answer
-from langchain_experimental.tools import PythonREPLTool, PythonAstREPLTool  # PythonREPL
-from typing import List, Dict, Union, Annotated              # 데이터 타입
-from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe_agent # Pandas
-from langchain_teddynote.messages import AgentCallbacks      # Agent callback 함수
-from langchain_teddynote.messages import AgentStreamParser   # Agent 중간단계 스트리밍
+import glob
+from retriever import create_retriever
+from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe_agent 
+
+# rag chain 
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_community.document_loaders import PyMuPDFLoader
+from langchain_community.vectorstores import FAISS
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.prompts import PromptTemplate
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 
 # 멀티턴
-from retriever import create_retriever
-from operator import itemgetter
-from langchain_core.runnables import RunnableLambda
-from langchain_core.runnables.history import RunnableWithMessageHistory
+from langchain_core.prompts import MessagesPlaceholder       # 임시 공간_대화 기록이 쌓이게 됨
+from langchain_community.chat_message_histories import ChatMessageHistory      # 세션 ID 별 대화 기록을 관리, in memory(휘발성)
+from langchain_core.runnables.history import RunnableWithMessageHistory        # 저장된 대화 기록을 가져오는 체인 구성
 
-st.title("AI 보고서 작성📊")
-ai_report = st.button("ai 보고서 만들기")
+# 에이전트
+from typing import List, Dict, Union, Annotated              # 데이터 타입
+from langchain_teddynote.messages import AgentCallbacks      # Agent callback 함수
+from langchain_teddynote.messages import AgentStreamParser   # Agent 중간단계 스트리밍
+from langchain_experimental.tools import PythonREPLTool, PythonAstREPLTool  # PythonREPL
 
-# 분석된 결과 출력
-st.write(st.session_state["two_num_relation"])
-st.write(st.session_state["two_cat_relation"])
-st.write(st.session_state["regression"])
- 
-####################### 세션 스테이트 초기화 #######################
+from langchain_teddynote import logging      # 랭스미스 로그 추적   
+logging.langsmith("CSV Agent 챗봇 ")          # 프로젝트 이름,   set_enable=False : 로그 추적 끄기
+
+# 캐시 디렉토리 생성(.폴더 : 숨김 폴더)
+if not os.path.exists(".cache"):
+    os.mkdir(".cache")
+
+# 파일 업로드 전용 폴더(파일 캐싱 임시 저장)
+if not os.path.exists(".cache/embeddings"):
+    os.mkdir(".cache/embeddings")
+
+if not os.path.exists(".cache/files"):
+    os.mkdir(".cache/files")
+
+
+st.title("CSV 데이터 분석 챗봇📊")
+
+# 처음에 세션 스테이트 초기화 
 session_state = st.session_state
-if "messages_csv" not in session_state:   # messages : 현재 세션에서 대화 기록 저장(세션 ID 별 대화 구분 X)
+# messages : 현재 세션에서 대화 기록 저장(세션 ID 별 대화 구분 X)
+if "messages_csv" not in session_state:
     session_state["messages_csv"] = []
 
 ################################ 기능함수 정의 ################################
@@ -299,18 +319,4 @@ if user_input:
 # 남녀 각각 생존율을 bar chart로 그려줘
 # 상위 10개의 행을 출력해줘
 # 남녀 구분해서 charges 상자그림 그리고 차이에 대해 해석해줘
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
