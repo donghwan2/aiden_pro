@@ -135,7 +135,7 @@ with st.sidebar:
     # 데이터 분석을 시작하는 버튼
     apply_btn = st.button("보고서 작성 시작")  
 
-    clr_btn = st.button("분석 초기화")  # 대화 내용을 초기화하는 버튼
+    clr_btn = st.button("분석 리셋")  # 대화 내용을 초기화하는 버튼
 
     # # CSV 파일 업로드
     # uploaded_file = st.file_uploader(
