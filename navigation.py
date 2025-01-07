@@ -5,7 +5,7 @@ import pandas as pd
 
 st.set_page_config(
     layout = 'wide',
-    page_title = 'Aiden Pro',
+    page_title = 'Aiden Pro - Auto Report Agent',
     page_icon=":computer:"
 )
 
