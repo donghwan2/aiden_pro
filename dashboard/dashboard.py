@@ -7,7 +7,6 @@ import plotly.express as px
 import altair as alt
 # from lightweight_charts.widgets import StreamlitChart
 
-
 ####################### style.css 적용 #######################
 
 # # streamlit 우상단 메뉴 표시
@@ -22,6 +21,16 @@ import altair as alt
 
 # with open('style.css', encoding="utf-8-sig") as f:
 #     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html = True)
+
+# 상단 마진/패딩 제거하는 CSS 적용
+st.markdown("""
+    <style>
+        /* 기본 여백 제거 */
+        .block-container {
+            padding-top: 0px !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
 
 ####################### /style.css 적용 #######################
 
