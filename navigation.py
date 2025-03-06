@@ -1,13 +1,16 @@
 import streamlit as st
 import pandas as pd
+from streamlit_autorefresh import st_autorefresh
 
-# st.set_page_config(page_title="Aiden Pro(AI&Data Enhancer)", page_icon="")
-
+# set_page_config는 항상 맨 윗줄에
 st.set_page_config(
     layout = 'wide',
     page_title = 'Aiden Pro - Auto Report Agent',
     page_icon=":computer:"
 )
+
+# 주기적으로 자동 새로고침 (1000ms = 1초)
+st_autorefresh(interval=60000, key="refresh")
 
 st.markdown(
     """
