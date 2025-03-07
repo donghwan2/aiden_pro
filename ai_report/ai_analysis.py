@@ -38,6 +38,16 @@ from langchain_experimental.tools import PythonREPLTool, PythonAstREPLTool  # Py
 from langchain_teddynote import logging      # 랭스미스 로그 추적   
 logging.langsmith("CSV Agent 챗봇 ")          # 프로젝트 이름,   set_enable=False : 로그 추적 끄기
 
+# 상단 마진/패딩 제거하는 CSS 적용
+st.markdown("""
+    <style>
+        /* 기본 여백 제거 */
+        .block-container {
+            padding-top: 0px !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
 # 캐시 디렉토리 생성(.폴더 : 숨김 폴더)
 if not os.path.exists(".cache"):
     os.mkdir(".cache")

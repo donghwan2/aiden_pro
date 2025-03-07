@@ -11,6 +11,16 @@ import warnings; warnings.filterwarnings('ignore')
 
 st.markdown("# 회귀분석")
 
+# 상단 마진/패딩 제거하는 CSS 적용
+st.markdown("""
+    <style>
+        /* 기본 여백 제거 */
+        .block-container {
+            padding-top: 0px !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
 df_ins = st.session_state['df_ins']
 df_titanic = st.session_state['df_titanic']
 df_ohlcv = st.session_state['df_ohlcv']

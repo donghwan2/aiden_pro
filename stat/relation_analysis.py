@@ -20,6 +20,16 @@ import plotly
 import plotly.express as px
 from scipy import stats
 
+# 상단 마진/패딩 제거하는 CSS 적용
+st.markdown("""
+    <style>
+        /* 기본 여백 제거 */
+        .block-container {
+            padding-top: 0px !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
 st.markdown("# 변수 관계 분석")
 
 # 샘플 데이터 세팅
