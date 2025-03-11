@@ -2,21 +2,22 @@ import streamlit as st
 import pandas as pd
 from streamlit_autorefresh import st_autorefresh
 
-# set_page_config는 항상 맨 윗줄에
+# 배너 이름/아이콘(맨 윗줄에 위치)
 st.set_page_config(
     layout = 'wide',
     page_title = 'Aiden Pro - Auto Report Agent',
     page_icon=":computer:"
 )
 
-# 주기적으로 자동 새로고침 (1000ms = 1초)
-st_autorefresh(interval=60000, key="refresh")
+# 주기적으로 자동 새로고침 (1000ms=1초, 60000=1분, 3600000=1시간)
+st_autorefresh(interval=3600000, key="refresh")
 
+# 스트림릿 상단 메뉴 바/하단 Made with Streamlit 숨김
 st.markdown(
     """
     <style>
-        footer {display: none}
-        [data-testid="stHeader"] {display: none}
+        footer {display: none}     /* Streamlit의 기본 푸터(하단 Made with Streamlit 문구)를 숨김 */
+        [data-testid="stHeader"] {display: none}     /* Streamlit의 기본 헤더(상단 메뉴 바)를 숨김 */
     </style>
     """, unsafe_allow_html = True
 )
@@ -44,6 +45,8 @@ dashboard = st.Page("dashboard/dashboard.py", title="대시보드", icon=":mater
                     default=True)
 # 통계 분석
 relation_analysis = st.Page("stat/relation_analysis.py", title="변수 관계 분석", icon=":material/house:")
+
+# 회귀분석
 regression = st.Page("stat/regression.py", title="선형회귀 분석", icon=":material/house:")
 
 # 머신러닝

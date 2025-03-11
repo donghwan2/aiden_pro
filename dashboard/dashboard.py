@@ -34,17 +34,17 @@ st.markdown("""
 
 ####################### /style.css 적용 #######################
 
-# 업로드된 CSV 파일 세션 스테이트 초기화 
-if "df" not in st.session_state:
-    st.session_state["df"] = "test"
+# # 업로드된 CSV 파일 세션 스테이트 초기화 
+# if "df" not in st.session_state:
+#     st.session_state["df"] = "test"
 
-# 임시 데이터 세션 스테이트 초기화
-if "df_ins" not in st.session_state:
-    st.session_state["df_ins"] = None
-if "df_titanic" not in st.session_state:
-    st.session_state["df_titanic"] = None
-if "df_ohlcv" not in st.session_state:
-    st.session_state["df_ohlcv"] = None
+# # 임시 데이터 세션 스테이트 초기화
+# if "df_ins" not in st.session_state:
+#     st.session_state["df_ins"] = None
+# if "df_titanic" not in st.session_state:
+#     st.session_state["df_titanic"] = None
+# if "df_ohlcv" not in st.session_state:
+#     st.session_state["df_ohlcv"] = None
 
 
 
@@ -52,46 +52,46 @@ if "df_ohlcv" not in st.session_state:
 
 # 도넛 차트 생성기
 def make_donut(input_response, input_text, input_color):
-  if input_color == 'blue':
-      chart_color = ['#29b5e8', '#155F7A']
-  if input_color == 'green':
-      chart_color = ['#27AE60', '#12783D']
-  if input_color == 'orange':
-      chart_color = ['#F39C12', '#875A12']
-  if input_color == 'red':
-      chart_color = ['#E74C3C', '#781F16']
-    
-  source = pd.DataFrame({
-      "Topic": ['', input_text],
-      "% value": [100-input_response, input_response]
-  })
-  source_bg = pd.DataFrame({
-      "Topic": ['', input_text],
-      "% value": [100, 0]
-  })
-    
-  plot = alt.Chart(source).mark_arc(innerRadius=45, cornerRadius=25).encode(
-      theta="% value",
-      color= alt.Color("Topic:N",
-                      scale=alt.Scale(
-                          #domain=['A', 'B'],
-                          domain=[input_text, ''],
-                          # range=['#29b5e8', '#155F7A']),  # 31333F
-                          range=chart_color),
-                      legend=None),
-  ).properties(width=130, height=130)
-    
-  text = plot.mark_text(align='center', color="#29b5e8", font="Lato", fontSize=32, fontWeight=700, fontStyle="italic").encode(text=alt.value(f'{input_response} %'))
-  plot_bg = alt.Chart(source_bg).mark_arc(innerRadius=45, cornerRadius=20).encode(
-      theta="% value",
-      color= alt.Color("Topic:N",
-                      scale=alt.Scale(
-                          # domain=['A', 'B'],
-                          domain=[input_text, ''],
-                          range=chart_color),  # 31333F
-                      legend=None),
-  ).properties(width=130, height=130)
-  return plot_bg + plot + text
+    if input_color == 'blue':
+        chart_color = ['#29b5e8', '#155F7A']
+    if input_color == 'green':
+        chart_color = ['#27AE60', '#12783D']
+    if input_color == 'orange':
+        chart_color = ['#F39C12', '#875A12']
+    if input_color == 'red':
+        chart_color = ['#E74C3C', '#781F16']
+        
+    source = pd.DataFrame({
+        "Topic": ['', input_text],
+        "% value": [100-input_response, input_response]
+    })
+    source_bg = pd.DataFrame({
+        "Topic": ['', input_text],
+        "% value": [100, 0]
+    })
+        
+    plot = alt.Chart(source).mark_arc(innerRadius=45, cornerRadius=25).encode(
+        theta="% value",
+        color= alt.Color("Topic:N",
+                        scale=alt.Scale(
+                            #domain=['A', 'B'],
+                            domain=[input_text, ''],
+                            # range=['#29b5e8', '#155F7A']),  # 31333F
+                            range=chart_color),
+                        legend=None),
+    ).properties(width=130, height=130)
+        
+    text = plot.mark_text(align='center', color="#29b5e8", font="Lato", fontSize=32, fontWeight=700, fontStyle="italic").encode(text=alt.value(f'{input_response} %'))
+    plot_bg = alt.Chart(source_bg).mark_arc(innerRadius=45, cornerRadius=20).encode(
+        theta="% value",
+        color= alt.Color("Topic:N",
+                        scale=alt.Scale(
+                            # domain=['A', 'B'],
+                            domain=[input_text, ''],
+                            range=chart_color),  # 31333F
+                        legend=None),
+    ).properties(width=130, height=130)
+    return plot_bg + plot + text
 
 
 ################################ /기능함수 구현 ################################
@@ -114,8 +114,9 @@ with st.sidebar:
 
 ################################ 데이터 전처리 ################################
 
-# 임시 데이터 불러오기
+# # 임시 데이터 불러오기
 df_ins = st.session_state['df_ins']
+# st.dataframe(df_ins)
 df_titanic = st.session_state['df_titanic']
 df_ohlcv = st.session_state['df_ohlcv']
 
@@ -182,17 +183,17 @@ c7.plotly_chart(fig_scatter, use_container_width=True)
 c9.markdown('#### Top Fares')
 # st.markdown("<br><br>", unsafe_allow_html=True)
 c9.dataframe(fare_sorted, 
-             column_config={
-                    "Name": st.column_config.TextColumn(
-                        "Name",
-                    ),
-                    "Fare_int": st.column_config.ProgressColumn(
-                        "Fare",
-                        format="%f",
-                        min_value=0,
-                        max_value=max(fare_sorted["Fare_int"]),
-                     )}
-                 )
+            column_config={
+                "Name": st.column_config.TextColumn(
+                    "Name",
+                ),
+                "Fare_int": st.column_config.ProgressColumn(
+                    "Fare",
+                    format="%f",
+                    min_value=0,
+                    max_value=max(fare_sorted["Fare_int"]),
+                    )}
+                )
 
 st.markdown("<br>", unsafe_allow_html=True)
 
@@ -203,7 +204,8 @@ c11, c12, c13, c14, c15 = st.columns([0.3, 3, 1, 3, 0.7])
 # Pie chart 생성
 c12.markdown('#### Region Ratio')
 region_count = df_ins['region'].value_counts()
-fig_pie = px.pie(df_ins, values=region_count.values, names=region_count.index,
+# st.write(region_count, region_count.values, region_count.index)
+fig_pie = px.pie(values=region_count.values, names=region_count.index,
             #  title='count by region'
             )
 # fig_pie.update_layout(width=800, height=800)  # 그래프 사이즈 조절
@@ -224,6 +226,7 @@ c14.plotly_chart(fig_heatmap)
 
 st.markdown("<br>", unsafe_allow_html=True)
 
+
 ########################### 4번째 컨테이너 ###########################
 
 c16, c17, c18, c19, c20 = st.columns([0.3, 3, 1, 3, 0.7])
@@ -233,12 +236,12 @@ with c17:
     st.markdown('#### Pclass Count')
     pclass_count = df_titanic["Pclass"].value_counts()
 
-    fig_bar = px.bar(df_titanic, x=pclass_count.index, y=pclass_count.values)
+    fig_bar = px.bar(x=pclass_count.index, y=pclass_count.values)
 
     # x축, y축 label 지정
     fig_bar.update_layout(
-        xaxis_title = 'Pclass',   # x축 레이블
-        yaxis_title = 'Count',     # y축 레이블
+        xaxis_title = 'Pclass',      # x축 레이블
+        yaxis_title = 'Count',       # y축 레이블
         xaxis=dict(
                 tickvals=[1, 2, 3],  # 표시할 눈금 값
                 ticktext=["1", "2", "3"]  # 눈금에 표시할 텍스트
